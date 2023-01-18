@@ -1,3 +1,3 @@
-module gospel/random-gospel-api
+module random-gospel
 
 go 1.19
