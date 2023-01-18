@@ -8,8 +8,8 @@ import (
 	"net/http"
 )
 
-func GetVerse(reading *Reading) <-chan BibleApiResponse {
-	ch := make(chan BibleApiResponse)
+func GetVerse(reading *BibleApiRequest) <-chan bibleApiResponse {
+	ch := make(chan bibleApiResponse)
 	url := makeUrl(reading)
 
 	go func() {
@@ -28,11 +28,35 @@ func GetVerse(reading *Reading) <-chan BibleApiResponse {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		var verseResp BibleApiResponse
+		var verseResp bibleApiResponse
 		json.Unmarshal([]byte(body), &verseResp)
 
 		ch <- verseResp
 	}()
 
 	return ch
+}
+
+type bibleApiResponse struct {
+	Reference string `json:"reference"`
+	Verses []bibleApiVerse `json:"verses"`
+	Text string `json:"text"`
+	TranslationId string `json:"translation_id"`
+	TranslationName string `json:"translation_name"`
+	TranslationNote string `json:"translation_note"`
+}
+
+type bibleApiVerse struct {
+	BookId string `json:"book_id"`
+	BookName string `json:"book_name"`
+	Chapter int `json:"chapter"`
+	Verse int `json:"verse"`
+	Text string `json:"text"`
+}
+
+func (verseResp bibleApiResponse) String() string {
+	return fmt.Sprintf(
+		"%s\n\n%s",
+		verseResp.Reference,
+		verseResp.Text)
 }
