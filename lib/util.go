@@ -6,18 +6,19 @@ import (
 	"time"
 )
 
-const BaseUrl = "https://bible-api.com"
-const KJV = "?translation=kjv"
+type Gospel string
 const (
 	Matthew Gospel = "matthew"
 	Mark Gospel = "mark"
 	Luke Gospel = "luke"
 	John Gospel = "john"
 )
+const BaseUrl = "https://bible-api.com"
+const KJV = "?translation=kjv"
 
 func RandomGospel() BibleApiRequest {
 	s1 := rand.NewSource(time.Now().UnixNano())
-    r1 := rand.New(s1)
+	r1 := rand.New(s1)
 
 	bookNum := r1.Intn(4)
 	var book Gospel

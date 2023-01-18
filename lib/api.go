@@ -8,6 +8,17 @@ import (
 	"net/http"
 )
 
+type BibleApiRequest struct {
+	Book Gospel
+	Chapter int
+	Verses VerseRange
+}
+
+type VerseRange struct {
+	Begin int
+	End int
+}
+
 func GetVerse(reading *BibleApiRequest) <-chan bibleApiResponse {
 	ch := make(chan bibleApiResponse)
 	url := makeUrl(reading)
@@ -54,9 +65,9 @@ type bibleApiVerse struct {
 	Text string `json:"text"`
 }
 
-func (verseResp bibleApiResponse) String() string {
+func (response bibleApiResponse) String() string {
 	return fmt.Sprintf(
 		"%s\n\n%s",
-		verseResp.Reference,
-		verseResp.Text)
+		response.Reference,
+		response.Text)
 }
