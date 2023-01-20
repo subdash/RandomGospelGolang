@@ -60,6 +60,7 @@ var expectedJohn = BibleApiRequest{
 		End: 6,
 	},
 }
+
 func Test_RandomGospel(t *testing.T) {
 	randNum = 0
 	expectedResults := []BibleApiRequest{

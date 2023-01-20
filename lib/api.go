@@ -19,8 +19,6 @@ type VerseRange struct {
 	End int
 }
 
-var HttpGET = http.Get
-
 func (request BibleApiRequest) String() string {
 	return fmt.Sprintf(
 		"Book: %s, Chapter: %d, Verses: %d, %d",
@@ -38,7 +36,7 @@ func GetVerse(reading *BibleApiRequest) (<-chan bibleApiResponse, error) {
 	go func() {
 		defer close(ch)
 		fmt.Printf("___FETCHING URL___: %s\n\n", url)
-		resp, err := HttpGET(url)
+		resp, err := http.Get(url)
 
 		if err != nil {
 			log.Fatalln(err)

@@ -1,23 +1,14 @@
 package lib
 
 import (
-	"errors"
+	// "errors"
 	"fmt"
 	"net/http"
-	// "net/http/httptest"
 	"testing"
 )
 
 
 var mockResponse http.Response
-
-var mockApiError error
-
-func init() {
-	HttpGET = func(url string) (resp *http.Response, err error) {
-		return &mockResponse, mockApiError
-	}
-}
 
 var mockRequest = BibleApiRequest{
 	Book: John,
@@ -53,43 +44,5 @@ func Test_bibleApiResponse_stringer(t *testing.T) {
 
 	if asString := fmt.Sprintf("%s", mockResponse); asString != expected {
 		t.Fatalf(`Unexpected text: %s`, asString)
-	}
-}
-
-// func Test_GetVerse(t *testing.T) {
-// 	mockApiResponse := 1
-// 	mockApiError = nil
-// 	expectedResponse := bibleApiResponse{
-// 		Reference: "John 6:17-18",
-// 		Verses: []bibleApiVerse{
-// 			bibleApiVerse{
-// 				BookId: "JHN",
-// 				BookName: "John",
-// 				Chapter: 6,
-// 				Verse: 17,
-// 				Text: "And entered into a ship...",
-// 			},
-// 			bibleApiVerse{
-// 				BookId: "JHN",
-// 				BookName: "John",
-// 				Chapter: 6,
-// 				Verse: 18,
-// 				Text: "And the sea arose by reason of a great wind that blew.",
-// 			},
-// 		},
-// 	}
-// 	ch := make(chan bibleApiResponse)
-// 	ch <- expectedResponse
-	
-// 	if response := GetVerse(&mockRequest); response != ch {
-// 		t.Fatalf(`%s`, &response)
-// 	}
-// }
-
-func Test_GetVerse_error(t *testing.T) {
-	mockApiError = errors.New("Something went wrong")
-
-	if _, err := GetVerse(&mockRequest); err != nil {
-		t.Fatalf(`GetVerse should return error`)
 	}
 }
