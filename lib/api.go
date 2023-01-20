@@ -19,6 +19,15 @@ type VerseRange struct {
 	End int
 }
 
+func (request BibleApiRequest) String() string {
+	return fmt.Sprintf(
+		"Book: %s, Chapter: %d, Verses: %d, %d",
+		request.Book,
+		request.Chapter,
+		request.Verses.Begin,
+		request.Verses.End)
+}
+
 func GetVerse(reading *BibleApiRequest) <-chan bibleApiResponse {
 	ch := make(chan bibleApiResponse)
 	url := makeUrl(reading)

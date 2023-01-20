@@ -3,7 +3,6 @@ package lib
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
 type Gospel string
@@ -16,11 +15,11 @@ const (
 const BaseUrl = "https://bible-api.com"
 const KJV = "?translation=kjv"
 
-func RandomGospel() BibleApiRequest {
-	s1 := rand.NewSource(time.Now().UnixNano())
-	r1 := rand.New(s1)
+// Use alias so that we can determine random number in testing
+var randIntN = rand.Intn
 
-	bookNum := r1.Intn(4)
+func RandomGospel() BibleApiRequest {
+	bookNum := randIntN(4)
 	var book Gospel
 
 	switch bookNum {
@@ -36,9 +35,9 @@ func RandomGospel() BibleApiRequest {
 
 	mapping := ChapterVerseMapping[book]
 	versesPerChapter := mapping.VersesPerChapter
-	chapterNum := r1.Intn(mapping.NumChapters + 1) 
-	beginVerse := r1.Intn(versesPerChapter[chapterNum] + 1)
-	endVerse := r1.Intn(versesPerChapter[chapterNum] + 1 - beginVerse) + beginVerse
+	chapterNum := randIntN(mapping.NumChapters + 1) 
+	beginVerse := randIntN(versesPerChapter[chapterNum] + 1)
+	endVerse := randIntN(versesPerChapter[chapterNum] + 1 - beginVerse) + beginVerse
 
 	return BibleApiRequest{
 		Book: book,
